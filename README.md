@@ -1,19 +1,20 @@
+
+# 4.2. Accessing the watsonx.data Environment
+**Page | 13**
 ```bash
 ssh -p 99999 watsonx@geo.services.cloud.techzone.ibm.com
 ```
-password: watsonx.data
+**password:** `watsonx.data`
 
 
 This command is used to switch to the root user with superuser privileges.
-Page | 16
+**Page | 16**
 ```bash
 sudo su -
 ```
 
-
-
 # 4.5.1   Stopping watsonx.data
-Page | 20
+**Page | 20**
 ```bash
 sudo su -
 cd /root/ibm-lh-dev/bin
@@ -24,7 +25,7 @@ cd /root/ibm-lh-dev/bin
 ```
 
 # 4.5.2. Starting watsonx.data
-Page | 21
+**Page | 21**
 ```bash
 export LH_RUN_MODE=diag
 ./start
@@ -32,7 +33,7 @@ export LH_RUN_MODE=diag
 ```
 
 # 5.1.6 Starting the watsonx.data User Interface
-Page | 25
+**Page | 25**
 **Username:**
 ```bash
 ibmlhadmin
@@ -59,6 +60,7 @@ The Create table from file workflow allows you to upload a small (maximum 2 MB f
 Copy and paste the following text into the SQL worksheet. Note that the table you are about
 to query is identified by a 3-part name that includes the catalog, schema, and table name.
 Click Run on presto-01.
+**Page | 46**
 ```sql
 select car, avg(mpg) as avg_mpg from iceberg_data.my_schema.cars group by car order by car;
 ```
@@ -66,77 +68,81 @@ select car, avg(mpg) as avg_mpg from iceberg_data.my_schema.cars group by car or
 # 5.6.2 Access Control Page
 Open a terminal command window to the watsonx.data server as the root user (remember to
 use the sudo command to become the root user
+**Page | 56**
 ```bash
 /root/ibm-lh-dev/bin/user-mgmt add-user user1 User password1
 ```
 
 # 6.1.2 Presto Command Line Interface (CLI)
-Page | 64
+**Page | 64**
 ```bash
 cd /root/ibm-lh-dev/bin
 ./presto-cli
 ```
-Page | 65
+**Page | 65**
 ```sql
 # Show the catalogs available in the system.
 show catalogs;
 ```
-Page | 65
+**Page | 65**
 ```sql
 # Query the customer table in the tpch catalog.
 select count(*) from tpch.tiny.customer;
 ```
-Page | 65
+**Page | 65**
 ```sql
 # Show the schemas available in the tpch catalog.
 show schemas in tpch;
 ```
-Page | 66
+**Page | 66**
 ```sql
 # Use the tpch.tiny schema.
 use tpch.tiny;
 ```
-Page | 66
+**Page | 66**
 ```sql
 # Query the customer table in the tpch.tiny schema.
 select count(*) from customer;
 ```
-Page | 66
+**Page | 66**
 ```sql
 quit;
 ```
-Page | 67
+**Page | 67**
 ```bash
 ./presto-cli --catalog tpch --schema tiny
 ```
+**Page | 67**
 ```sql
 select count(*) from customer;
 ```
+**Page | 67**
 ```bash
 quit;
 ```
+**Page | 67**
 ```bash
 ./presto-cli --catalog iceberg_data
 ```
-Page | 68
+**Page | 67**
 ```sql
 create schema if not exists newschema with (location='s3a://iceberg-bucket/newschema');
 ```
-Page | 68
+**Page | 67**
 ```sql
 show schemas;
 ```
-Page | 68
+**Page | 68**
 ```sql
 create table newschema.users (id int, name varchar, age int);
 ```
-Page | 68
+**Page | 68**
 ```sql
 insert into newschema.users values (1, 'Robert', 54);
 insert into newschema.users values (2, 'Susan', 37);
 select * from newschema.users order by id;
 ```
-Page | 68
+**Page | 68**
 ```bash
 use newschema;
 show tables;
@@ -144,30 +150,30 @@ quit;
 ```
 
 # 7.2. Exploring MinIO Object Storage
-Page | 75
+**Page | 75**
 ```bash
 docker exec ibm-lh-presto printenv | grep LH_S3_ACCESS_KEY | sed's/.*=//'
 ```
-Page | 75
+**Page | 75**
 ```bash
 docker exec ibm-lh-presto printenv | grep LH_S3_SECRET_KEY | sed 's/.*=//'
 ```
 
 # 8.8 Data Ingestion
-Page | 79
+**Page | 79**
 You can download the `aircraft.parquet` file from the following URL:
 
 [Download aircraft.parquet](https://github.com/aseelert/watsonx-data-enablement-l3/raw/main/aircraft.parquet)
 
-Page | 82
+**Page | 82**
 ```bash
 /root/ibm-lh-dev/bin/presto-cli
 ```
-Page | 82
+**Page | 82**
 ```bash
 create schema hive_data.myschema2 with (location = 's3a://hive-bucket/myschema2');
 ```
-Page | 82
+**Page | 82**
 ```sql
 create table hive_data.myschema2.aircraft
 (tail_number varchar,
@@ -176,13 +182,14 @@ model varchar)
 with (format = 'Parquet',
 external_location='s3a://hive-bucket/myschema2/aircraft');
 ```
-Page | 82
+**Page | 82**
 ```sql
 select count(*) from hive_data.myschema2.aircraft;
 quit;
 ```
 
 # 9.4 Federated Queries
+**Page | 86**
 
 - **Display name**: `Db2DW`
 - **Database name**: `GOSALES`
@@ -193,7 +200,7 @@ quit;
 - **Password**: `db2inst1`
 - **Port is SSL enabled**: `<toggled off>`
 
-Page | 90
+**Page | 90**
 ```bash
 docker exec ibm-lh-postgres printenv | grep POSTGRES_PASSWORD | sed 's/.*=//'
 ```
@@ -207,7 +214,7 @@ docker exec ibm-lh-postgres printenv | grep POSTGRES_PASSWORD | sed 's/.*=//'
 - **Port is SSL enabled**: `<toggled off>`
 - **Catalog name**: `pgcatalog`
 
-Page | 93
+**Page | 93**
 ```sql
 select pll.product_line_en as product,
 md.order_method_en as order_method,
@@ -230,7 +237,7 @@ group by pll.product_line_en, md.order_method_en
 order by product, order_method;
 ```
 
-Page | 95
+**Page | 95**
 ```sql
 select distinct branch_region_dim.region_en region,
 branch_region_dim.country_en country,
@@ -244,7 +251,7 @@ emp_employee_dim.branch_code = go_branch_dim.branch_code
 order by region, country, employee;
 ```
 
-Page | 96
+**Page | 96**
 ```sql
 select gosalesdw.go_org_dim.organization_key,
 go_org_dim_1.organization_parent as org_level1_code,
@@ -275,22 +282,22 @@ between '1700' and '5730')
 order by org_code;
 ```
 
-11 Offloading Data to Object Storage
+# 10 Offloading Data from a Data Warehouse
+**Page | 98**
 ```bash
 iceberg_data
 ```
 ```bash
 wxgosalesdw
 ```
-11.6
-Page | 99
+# 10.6
+**Page | 99**
 ```sql
-create table iceberg_data.wxgosalesdw.sls_sales_fact
-as select * from db2catalog.gosalesdw.sls_sales_fact;
+create table iceberg_data.wxgosalesdw.sls_sales_fact as select * from db2catalog.gosalesdw.sls_sales_fact;
 ```
 
-11.7
-Page | 100
+# 10.7 Federated Queries
+**Page | 100**
 ```sql
 select pll.product_line_en as product,
 sum(sf.quantity) as total
@@ -306,43 +313,46 @@ order by product;
 ```
 
 # 11.1.2 Table Rollback
-Page | 101
+**Page | 101**
 ```sql
 create table iceberg_data.my_schema.airport_id
 as select * from hive_data.ontime.airport_id;
 ```
 
-Page | 102
+**Page | 102**
 ```sql
 insert into iceberg_data.my_schema.airport_id values (10000, 'North Pole: Reindeer Field');
 select * from iceberg_data.my_schema.airport_id where code = 10000;
 select count(*) from iceberg_data.my_schema.airport_id;
 ```
 
-Page | 104
+**Page | 104**
 ```sql
 call iceberg_data.system.rollback_to_snapshot ('my_schema', 'airport_id', <snapshotID>);
 ```
 
-Page | 105
+**Page | 105**
 ```sql
 select * from iceberg_data.my_schema.airport_id where code = 10000;
 select count(*) from iceberg_data.my_schema.airport_id;
 ```
 
-11.2.2 Time Travel Queries
+# 11.2.2 Time Travel Queries
+**Page | 105**
 ```sql
 create table iceberg_data.my_schema.ttqtable (id int, name char(10));
 ```
 ```sql
 select * from iceberg_data.my_schema."ttqtable$snapshots" order by committed_at;
 ```
+**Page | 107**
 ```sql
 insert into iceberg_data.my_schema.ttqtable values (1, 'TV'), (2, 'Computer'), (3, 'Stereo');
 ```
 ```sql
 select * from iceberg_data.my_schema."ttqtable$snapshots" order by committed_at;
 ```
+**Page | 108**
 ```sql
 insert into iceberg_data.my_schema.ttqtable values (4, 'Phone'), (5, 'Tablet'), (6, 'Camera');
 insert into iceberg_data.my_schema.ttqtable values (7, 'Headphones'), (8, 'Microphone'), (9, 'Watch');
@@ -351,7 +361,8 @@ insert into iceberg_data.my_schema.ttqtable values (7, 'Headphones'), (8, 'Micro
 select * from iceberg_data.my_schema."ttqtable$snapshots" order by committed_at;
 ```
 
-11.2.10
+# 11.2.10 Time Travel Queries
+**Page | 109**
 ```sql
 select * from iceberg_data.my_schema.ttqtable for version as of 'Transaction1SnapshotID' order by id;
 ```
@@ -364,6 +375,7 @@ select * from iceberg_data.my_schema.ttqtable for version as of Tran2SnapshotID 
 ```sql
 select * from iceberg_data.my_schema.ttqtable for timestamp as of cast('Tran3Time' as timestamp with time zone) order by id;
 ```
+**Page | 110**
 ```sql
 select * from iceberg_data.my_schema.ttqtable for timestamp as of cast('Pick-a-time-between-Tran2Time-and-Tran3Time' as timestamp with time zone) order by id;
 ```
